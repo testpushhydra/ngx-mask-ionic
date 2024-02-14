@@ -1,6 +1,6 @@
 {
   "name": "@cloudideaas/ngx-mask-iconic",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Upgrade of ngx-mask-iconic to Angular 16",
   "author": "CloudIDEaaS Inc",
   "repository": {
