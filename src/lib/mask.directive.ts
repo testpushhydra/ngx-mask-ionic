@@ -1,4 +1,4 @@
-import { Directive, HostListener, Inject, Input } from '@angular/core';
+import { Directive, ElementRef, HostListener, Inject, Input } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { NgControl } from '@angular/forms';
 import { MaskService } from './mask.service';
@@ -21,7 +21,8 @@ export class MaskDirective {
     // tslint:disable-next-line
     @Inject(DOCUMENT) private document: any,
     private _maskService: MaskService,
-    private _ngControl: NgControl
+    private _ngControl: NgControl,
+    private _elementRef: ElementRef,
   ) {}
 
   @Input('mask')
@@ -30,8 +31,11 @@ export class MaskDirective {
     if (!this._maskValue) {
       return;
     }
-    this._inputValue = this._ngControl.control.value;
-    this._initializeMask();
+    setTimeout(() => {
+      this._inputValue = this._ngControl.control.value;
+      this._initializeMask();
+      this.addEventListeners();
+    }, 1);
   }
 
   @Input()
@@ -93,6 +97,20 @@ export class MaskDirective {
     this._maskService.clearIfNotMatch = value;
   }
 
+  addEventListeners() {
+    
+    // this is here because host listeners do not work in Ng version 16.2.12
+
+    const inputElement = <HTMLElement> this._elementRef.nativeElement.querySelector('input');
+
+    inputElement.addEventListener("input", this.onInput);
+    inputElement.addEventListener("blur", this.onBlur);
+    inputElement.addEventListener("focus", this.onFocus);
+    inputElement.addEventListener("keydown", this.onKeyDown);
+    inputElement.addEventListener("paste", this.onPaste);
+    inputElement.addEventListener("touch", this.onTouch);
+  }
+
   @HostListener('input', ['$event'])
   public onInput(e: KeyboardEvent): void {
     const el: HTMLInputElement = e.target as HTMLInputElement;
@@ -122,6 +140,7 @@ export class MaskDirective {
           ((e as any).inputType === 'deleteContentBackward' ? 0 : caretShift);
     this._position = null;
   }
+
 
   @HostListener('blur')
   public onBlur(): void {
