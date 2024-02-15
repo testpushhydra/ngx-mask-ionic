@@ -35,7 +35,7 @@ export class MaskDirective {
       this._inputValue = this._ngControl.control.value;
       this._initializeMask();
       this.addEventListeners();
-    }, 1);
+    }, 100);
   }
 
   @Input()
