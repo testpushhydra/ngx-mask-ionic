@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngx-mask-iconic": {
+    "ngx-mask-ionic": {
       "projectType": "library",
       "root": "",
       "sourceRoot": "/src",
@@ -25,3 +25,4 @@
     }
   }
 }
+

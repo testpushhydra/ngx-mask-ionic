@@ -11,6 +11,7 @@ import { IConfig } from './config';
 export class MaskDirective {
   private _maskValue: string;
   private _inputValue: string;
+  private _inputElement: HTMLElement;
   private _position: number | null = null;
   // tslint:disable-next-line
   private _start: number;
@@ -101,14 +102,14 @@ export class MaskDirective {
     
     // this is here because host listeners do not work in Ng version 16.2.12
 
-    const inputElement = <HTMLElement> this._elementRef.nativeElement.querySelector('input');
+    this._inputElement = <HTMLElement> this._elementRef.nativeElement.querySelector('input');
 
-    inputElement.addEventListener("input", this.onInput);
-    inputElement.addEventListener("blur", this.onBlur);
-    inputElement.addEventListener("focus", this.onFocus);
-    inputElement.addEventListener("keydown", this.onKeyDown);
-    inputElement.addEventListener("paste", this.onPaste);
-    inputElement.addEventListener("touch", this.onTouch);
+    this._inputElement.addEventListener("input", (e: KeyboardEvent) => this.onInput(e));
+    this._inputElement.addEventListener("blur", () => this.onBlur());
+    this._inputElement.addEventListener("focus", (e: KeyboardEvent | MouseEvent) => this.onFocus(e));
+    this._inputElement.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e));
+    this._inputElement.addEventListener("paste", () => this.onPaste());
+    this._inputElement.addEventListener("touch", () => this.onTouch());
   }
 
   @HostListener('input', ['$event'])

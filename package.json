@@ -1,7 +1,7 @@
 {
-  "name": "@cloudideaas/ngx-mask-iconic",
+  "name": "@cloudideaas/ngx-mask-ionic",
   "version": "0.0.14",
-  "description": "Upgrade of ngx-mask-iconic to Angular 16",
+  "description": "Upgrade of ngx-mask-ionic to Angular 16",
   "author": "CloudIDEaaS Inc",
   "repository": {
     "type": "git",
